@@ -14,7 +14,7 @@ const MainScreen = props => {
 
     const loadCategories = useCallback(async () => {
         try {
-            await dispatch (getCategories())
+          await dispatch (getCategories())
         } catch(err){
             console.log(err.message)
         }
@@ -50,7 +50,7 @@ const MainScreen = props => {
       <FlatList 
       data={categories}
       renderItem={renderCategory}/>
-
+      
     );
   }
 
@@ -58,17 +58,24 @@ const MainScreen = props => {
     return {
       headerTitle: 'Главное меню',
       
-      headerRight: (
-        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-          <Item
-            title="Cart"
-            iconName='md-cart'
-            onPress={() => {
-              navData.navigation.navigate('ShopCart');
-            }}
-          />
-        </HeaderButtons>
-      )
+      // headerRight: (
+      //   <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+      //     <Item
+      //       title="Cart"
+      //       iconName='md-cart'
+      //       onPress={() => {
+      //         navData.navigation.navigate('ShopCart');
+    //   />
+    //   </HeaderButtons>
+    // }}
+    // )
+          headerRight: () => (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item title="Cart" iconName="md-cart" onPress={() => {
+                    navData.navigation.navigate('ShopCart');
+                    }} />
+            </HeaderButtons>
+            )
     };
   };
 

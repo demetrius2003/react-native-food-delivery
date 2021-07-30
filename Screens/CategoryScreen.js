@@ -1,17 +1,36 @@
-import React from 'react';
+import React,{useCallback, useEffect} from 'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { Ionicons } from '@expo/vector-icons';
+import { useSelector, useDispatch } from 'react-redux';
 
+import { getItems } from '../redux/actions';
 import CustomHeaderButton from '../Components/HeaderButton';
 import {ITEMS} from '../Data/data'
 
+
 const CategoryScreen = props => {
+    const items = useSelector(state => state.items)
+    const dispatch = useDispatch();
 
-    const catId = props.navigation.getParam('categoryId')
+
+    const loadItems = useCallback(async () => {
+      try {
+          await dispatch (getItems())
+      } catch(err){
+          console.log(err)
+      }
+  },[dispatch])
+
+  useEffect(()=>{
+      loadItems()
+  },[loadItems])
 
 
-    const displayedItems = ITEMS.filter(item => item.categoryId === catId)
+    // const catId = props.navigation.getParam('categoryId')
+
+    
+    // const displayedItems = ITEMS.filter(item => item.categoryId === catId)
 
 
     const renderItem = itemData => {
@@ -31,36 +50,31 @@ const CategoryScreen = props => {
                     <Text style={styles.title}>{itemData.item.title}</Text>
                     <Text style={styles.price}>{itemData.item.price}</Text>
                 </View>
-                <Image source={itemData.item.image}
+                <Image source={{uri: itemData.item.image}}
                 style={styles.image}/>
                 <Text style={styles.description}>{itemData.item.description}</Text>
-            </View>
+            </View> 
             </TouchableOpacity>
         )
     }
   
     return (
         <FlatList 
-        data={displayedItems}
+        data={items}
         renderItem={renderItem}/>
       );
   }
 
   CategoryScreen.navigationOptions = navData => {
     return {
-      headerTitle: navData.navigation.getParam('productTitle'),
-      
-      headerRight: (
+      headerTitle: 'Меню',
+      headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-          <Item
-            title="Cart"
-            iconName='md-cart'
-            onPress={() => {
-              navData.navigation.navigate('ShopCart');
-            }}
-          />
+            <Item title="Menu" iconName="md-cart" onPress={() => {
+                navData.navigation.navigate('ShopCart');
+            }} />
         </HeaderButtons>
-      )
+    )
     };
   };
   

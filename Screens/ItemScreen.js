@@ -1,23 +1,24 @@
 import React,{useEffect} from 'react';
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
-import { useDispatch,useSelector } from 'react-redux';
-import {addToShopCart} from '../redux/actions'
+import { useDispatch, useSelector } from 'react-redux';
+import {addToShopCart, plusTotalPrice} from '../redux/actions'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import CustomHeaderButton from '../Components/HeaderButton';
 
-import {ITEMS} from '../Data/data'
 
 const ItemScreen = props => {
 
-    const shopCartList = useSelector(state=> state.shopCartList)
+    const stateItems = useSelector(state => state.items)
     
     const itemId = props.navigation.getParam('itemId')
 
-    const selectedItem = ITEMS.find(item => item.id === itemId)
+    const selectedItem = stateItems.find(item => item.id === itemId)
 
     const dispatch = useDispatch()
 
     const addToShopCartFunc = () => {
-        
         dispatch(addToShopCart(selectedItem))
+        dispatch(plusTotalPrice(selectedItem.price))
         
     }
   
@@ -27,7 +28,7 @@ const ItemScreen = props => {
                 <Text style={styles.title}>{selectedItem.title}</Text>
                 <Text style={styles.price}>{selectedItem.price}</Text>
             </View>
-            <Image source={selectedItem.image}
+            <Image source={{uri: selectedItem.image}}
             style={styles.image}/>
             <Text style={styles.description}>{selectedItem.description}</Text>
             <View style={styles.button}>
@@ -42,6 +43,20 @@ const ItemScreen = props => {
     return {
       headerTitle: navData.navigation.getParam('itemTitle'),
       
+    };
+  };
+
+  ItemScreen.navigationOptions = navData => {
+    return {
+      headerTitle: 'Меню',
+
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item title="Menu" iconName="md-cart" onPress={() => {
+                navData.navigation.navigate('ShopCart');
+            }} />
+        </HeaderButtons>
+    )
     };
   };
   
