@@ -32,18 +32,11 @@ const ShopCartScreen = props => {
 
     const total = useSelector(state=> state.total)
 
-    // const stateItems = useSelector(state => state.items)
-    
-    // const itemId = props.navigation.getParam('itemId')
-
-    // const deleteItem = stateItems.find(item => item.id === itemId)
-
     const dispatch = useDispatch()
 
     const removeItem = (item) => {
-        console.log(item)
         dispatch(delFromShopCart(item.id))
-        dispatch(minusTotalPrice(i.price))
+        dispatch(minusTotalPrice(item.price))
 
 
     }

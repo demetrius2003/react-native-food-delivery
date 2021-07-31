@@ -17,9 +17,10 @@ const reducer = (state = initialState, action) => {
             };
 
         case 'delFromShopCart':
+            const delIndex = state.shopCartList.findIndex(index => index.id === action.payload)
             return{
                 ...state,
-                ShopCartList: [...state.filter(shopCartList => shopCartList.id !== action.payload.id)]
+                shopCartList: [...state.shopCartList.filter((_, i) => i !== delIndex)]
             }
 
         case 'plusTotalPrice':

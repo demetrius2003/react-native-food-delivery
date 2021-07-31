@@ -174,12 +174,6 @@ catch(err) {
           )}
         }
 
-        // console.log(loadedItems)
-        // const loadedItems = [
-        //   new Item(1, 'c1','Карбонара', "https://cdn.pixabay.com/photo/2018/11/10/00/38/pasta-3805772_960_720.jpg", "Спагетти с беконом", 500),
-        //   new Item(2, 'c1', "Пицца", "https://cdn.pixabay.com/photo/2020/06/08/16/49/pizza-5275191_960_720.jpg", 'Пицца маргаритта', 600),
-        //   new Item(3, 'c1', 'Тирамису', "https://cdn.pixabay.com/photo/2018/04/08/21/13/dessert-3302502_960_720.jpg", "Сливочно-кофейный десерт", 400)
-        // ]
       dispatch({
         type:'getItems',
         items: loadedItems
