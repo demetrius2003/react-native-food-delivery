@@ -48,7 +48,7 @@ const ItemScreen = props => {
 
   ItemScreen.navigationOptions = navData => {
     return {
-      headerTitle: 'Меню',
+        headerTitle: navData.navigation.getParam('itemTitle'),
 
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

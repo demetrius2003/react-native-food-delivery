@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Button, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import {delFromShopCart, minusTotalPrice} from '../redux/actions'
+import {delFromShopCart, minusTotalPrice, ShopCartClear} from '../redux/actions'
+import CustomHeaderButton from '../Components/HeaderButton';
 
 
 const ShopCartScreen = props => {
@@ -12,7 +13,7 @@ const ShopCartScreen = props => {
 
         const response = await fetch(
 
-            'https://react-native-app-e1089-default-rtdb.firebaseio.com/orfers.json',
+            'https://react-native-app-e1089-default-rtdb.firebaseio.com/orders.json',
         {
             method: 'POST',
             headers: {
@@ -26,6 +27,14 @@ const ShopCartScreen = props => {
             })
         }    
         )
+        const clearCart = () => {
+            dispatch(ShopCartClear())
+        }
+
+        clearCart()
+
+        props.navigation.navigate({routeName: 'CompletedOrder'})
+        
     }
 
     const shopCartList = useSelector(state=> state.shopCartList)
@@ -51,19 +60,40 @@ const ShopCartScreen = props => {
                 </View>
                 <Image source={{uri: itemData.item.image}}
                 style={styles.image}/>
-                <Text style={styles.description}>{itemData.item.description}</Text>
-                <Button title='Удалить товар'
-                    onPress={() => {
-                        removeItem(itemData.item);
-                      }}
-                />
+                <View style={{flexDirection: 'row', justifyContent:'space-between'}}>
+                    <Text style={styles.description}>{itemData.item.description}</Text>
+                    <Text style={styles.quantity}>Количество: {itemData.item.qty}</Text>
+                </View>
+                <View style={styles.button}>
+                    <Button  title='Удалить товар'
+                        onPress={() => {
+                            removeItem(itemData.item);
+                        }}
+                    />
+                </View>
             </View>
             
         )
     }
 
-   
-  
+   if (shopCartList.length === 0){
+    return (
+        <View style={styles.empty}>
+            <Text style={styles.emptyText}>Корзина пуста</Text>
+            <Image source={{uri: 'https://i.pinimg.com/564x/30/84/99/308499e700e94baf9b64daceb0bdfc62.jpg'}}
+            style={styles.cat}/>
+            <View style={styles.emptyButton}>
+            <Button title='Купить что-нибудь'
+                onPress={() => {
+                    props.navigation.navigate({
+                        routeName: 'Main'
+                    })
+                }}
+                />
+                </View>
+        </View>
+    )
+   }else{
     return (
         <View style={styles.container}>
             <FlatList 
@@ -73,19 +103,29 @@ const ShopCartScreen = props => {
             <Button title='Заказать' onPress={addOrder}/>
         </View>
       );
+   }
  
   }
+
+
+  ShopCartScreen.navigationOptions = navData => {
+    return {
+      headerTitle: 'Корзина'
+
+    };
+  };
   
   const styles = StyleSheet.create({
     container: {
         flex: 1,
         margin: 5,
-        height: 150,
+        height: 200,
         marginBottom: 50
     },
     image: {
         width: '100%',
-        height: '50%'
+        height: '60%',
+        marginBottom: 10,
     },
     title: {
         fontFamily: 'open-sans-bold',
@@ -100,10 +140,35 @@ const ShopCartScreen = props => {
     description: {
         fontFamily: 'open-sans',
         fontSize: 15,
-        textAlign: 'center'
+        textAlign: 'left'
     },
     button: {
-        marginTop: 20
+        marginTop: 10
+    },
+    quantity:{
+        fontFamily: 'open-sans',
+        fontSize: 15,
+        textAlign: 'right'
+    },
+    empty: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cat: {
+        width: '80%',
+        height: '80%',
+        marginBottom: 10,
+    },
+
+    emptyText:{
+        fontFamily: 'open-sans',
+        fontSize: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10
+    },
+    emptyButton:{
+        marginTop: 10
     }
   });
   

@@ -23,6 +23,10 @@ export const authenticate = (userId, token) => {
   }
 }
 
+export const ShopCartClear = () => ({
+  type: 'ShopCartClear'
+})
+
 export const signup = (email, password) => {
   return async dispatch => {
 
@@ -99,8 +103,6 @@ export const login = (email, password) => {
 
 export const getCategories = () => {
   return async (dispatch, getState) => {
-    // const userId =getState().userId;
-    // const token =getState().token;
     try {
 
       const response = await fetch(
@@ -142,8 +144,6 @@ catch(err) {
 
   export const getItems = () => {
     return async (dispatch, getState) => {
-      // const userId =getState().userId;
-      // const token =getState().token;
       try {
   
         const response = await fetch(
@@ -161,7 +161,6 @@ catch(err) {
 
         for(const key in resDataItem){
           for(const k in resDataItem[key]){
-            // console.log(resDataItem[key][k])
             loadedItems.push(
             new Item(
               k,

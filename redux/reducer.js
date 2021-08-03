@@ -11,17 +11,26 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case 'addToShopCart':
-            return {
-                ...state,
-                shopCartList: [...state.shopCartList,action.payload]
-            };
+
+            if (state.shopCartList.some(item => item.id === action.payload.id)) {
+                return{
+                    ...state,
+                    shopCartList: [...state.shopCartList.map(item => (item.id === action.payload.id ? { ...item, qty: item.qty + 1 } : item))]
+                    }  
+            }else{
+                action.payload['qty']= 1
+                return{
+                    ...state,
+                    shopCartList: [...state.shopCartList,action.payload]
+                    }
+            }
 
         case 'delFromShopCart':
-            const delIndex = state.shopCartList.findIndex(index => index.id === action.payload)
             return{
                 ...state,
-                shopCartList: [...state.shopCartList.filter((_, i) => i !== delIndex)]
-            }
+                shopCartList: state.shopCartList
+                    .map(item => (item.id === action.payload ? { ...item, qty: item.qty - 1 } : item))
+                    .filter(item => item.qty > 0)}
 
         case 'plusTotalPrice':
             return {
@@ -50,7 +59,14 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 token: action.token,
                 userId: action.userId
-            };
+            }
+        case 'ShopCartClear':
+            return{
+                ...state,
+                shopCartList: [],
+                total: 0
+            }
+
         default:
             return state
     }

@@ -58,17 +58,6 @@ const MainScreen = props => {
     return {
       headerTitle: 'Главное меню',
       
-      // headerRight: (
-      //   <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-      //     <Item
-      //       title="Cart"
-      //       iconName='md-cart'
-      //       onPress={() => {
-      //         navData.navigation.navigate('ShopCart');
-    //   />
-    //   </HeaderButtons>
-    // }}
-    // )
           headerRight: () => (
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
                 <Item title="Cart" iconName="md-cart" onPress={() => {

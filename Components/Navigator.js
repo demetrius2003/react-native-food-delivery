@@ -7,6 +7,7 @@ import CategoryScreen from '../Screens/CategoryScreen';
 import ItemScreen from '../Screens/ItemScreen';
 import ShopCartScreen from '../Screens/ShopCartScreen';
 import AuthScreen from '../Screens/AuthScreen';
+import CompletedOrderScreen from '../Screens/CompletedOrder'
 
 
 const defaultNavOptions = {
@@ -26,7 +27,8 @@ const Navigator = createStackNavigator({
     Main: MainScreen,
     Categories: CategoryScreen,
     Item: ItemScreen,
-    ShopCart: ShopCartScreen
+    ShopCart: ShopCartScreen,
+    CompletedOrder: CompletedOrderScreen
 },
     {defaultNavigationOptions: defaultNavOptions}
 )

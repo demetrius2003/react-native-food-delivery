@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getItems } from '../redux/actions';
 import CustomHeaderButton from '../Components/HeaderButton';
-import {ITEMS} from '../Data/data'
 
 
 const CategoryScreen = props => {
@@ -25,12 +24,6 @@ const CategoryScreen = props => {
   useEffect(()=>{
       loadItems()
   },[loadItems])
-
-
-    // const catId = props.navigation.getParam('categoryId')
-
-    
-    // const displayedItems = ITEMS.filter(item => item.categoryId === catId)
 
 
     const renderItem = itemData => {
@@ -67,7 +60,7 @@ const CategoryScreen = props => {
 
   CategoryScreen.navigationOptions = navData => {
     return {
-      headerTitle: 'Меню',
+      headerTitle: navData.navigation.getParam('productTitle'),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
             <Item title="Menu" iconName="md-cart" onPress={() => {

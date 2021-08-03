@@ -55,8 +55,12 @@ const AuthScreen = props => {
                 secureTextEntry
                 onChangeText={passwordChangerHundler}
                 value={passwordInput}/>
-            <Button title='Log In' onPress={logInHundler}/>
-            <Button title='Sign Up' onPress={signUpHundler}/>
+
+            <View style={styles.button}>
+                <Button title='Log In' onPress={logInHundler}/>
+            </View>
+                <Button title='Sign Up' onPress={signUpHundler}/>
+            
         </View>
     )
 }
@@ -65,7 +69,13 @@ const AuthScreen = props => {
 const styles = StyleSheet.create({
     container: {
         padding: 50
-    }
+    },
+    button:{
+    marginTop: 10,
+    marginBottom: 10,
+    
+}
+
 })
 
 export default AuthScreen
