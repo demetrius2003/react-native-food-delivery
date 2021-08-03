@@ -4,10 +4,29 @@ import { useDispatch } from 'react-redux';
 
 import { signup, login } from '../redux/actions';
 
+import { AsyncStorage } from 'react-native';
+
 
 const AuthScreen = props => {
     const [emailInput, setEmailInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
+
+    try {
+      const value = await AsyncStorage.getItem('@FoodDeliveryStore:email')
+      if (value !== null) {
+        emailInput = value
+      }
+    } catch (error) {
+      console.log('cannot read email!')
+    }
+    try {
+      const value = await AsyncStorage.getItem('@FoodDeliveryStore:password')
+      if (value !== null) {
+        passwordInput = value
+      }
+    } catch (error) {
+      console.log('cannot read password!')
+    }
 
     const dispatch = useDispatch()
 
@@ -34,6 +53,16 @@ const AuthScreen = props => {
             props.navigation.navigate('Delivery')
         } catch(err){
             console.log(err.message)
+        }
+        try {
+          await AsyncStorage.setItem('@FoodDeliveryStore:email', emailInput)
+        } catch (error) {
+          console.log('cannot save email!')
+        }
+        try {
+          await AsyncStorage.setItem('@FoodDeliveryStore:password', passwordInput)
+        } catch (error) {
+          console.log('cannot save password!')
         }
     }
 
